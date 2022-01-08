@@ -2,30 +2,11 @@
   <div class="inc-exp-container">
     <div>
       <h4>Income</h4>
-      <div class="money plus">
-        +${{
-          parseFloat(
-            transactions
-              .map((transaction) => transaction.amount)
-              .filter((transaction) => transaction > 0)
-              .reduce((total, item) => (total += item), 0)
-          ).toFixed(2)
-        }}
-      </div>
+      <div class="money plus">+${{ income(transactions) }}</div>
     </div>
     <div>
       <h4>Expense</h4>
-      <p class="money minus">
-        -$
-        <span
-          v-text="
-            transactions
-              .map((transaction) => transaction.amount)
-              .filter((item) => item < 0)
-              .reduce((total, item) => (total += item), 0) * -1
-          "
-        ></span>
-      </p>
+      <p class="money minus">-${{ expense(transactions) }}</p>
     </div>
   </div>
 </template>
@@ -35,6 +16,27 @@ export default {
   name: 'IncomeExpenses',
   props: {
     transactions: Array,
+  },
+  methods: {
+    income(transactions) {
+      const amount = transactions.map((transaction) => transaction.amount);
+
+      const income = amount
+        .filter((transaction) => transaction > 0)
+        .reduce((total, item) => (total += item), 0);
+
+      return parseFloat(income).toFixed(2);
+    },
+    expense(transactions) {
+      const amount = transactions.map((transaction) => transaction.amount);
+
+      const expense =
+        amount
+          .filter((item) => item < 0)
+          .reduce((total, item) => (total += item), 0) * -1;
+
+      return expense;
+    },
   },
 };
 </script>

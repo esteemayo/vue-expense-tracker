@@ -1,8 +1,8 @@
 <template>
-  <li :class="transaction.amount < 0 ? 'minus' : 'plus'">
+  <li :class="signClass(transaction)">
     {{ transaction.text }}
     <span>
-      <span v-text="transaction.amount < 0 ? '-' : '+'"></span>
+      {{ sign(transaction) }}
       ${{ Math.abs(transaction.amount) }}
     </span>
     <button
@@ -19,6 +19,14 @@ export default {
   name: 'Transaction',
   props: {
     transaction: Object,
+  },
+  methods: {
+    signClass(transaction) {
+      return transaction.amount < 0 ? 'minus' : 'plus';
+    },
+    sign(transaction) {
+      return transaction.amount < 0 ? '-' : '+';
+    },
   },
 };
 </script>

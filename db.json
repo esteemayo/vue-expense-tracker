@@ -24,6 +24,11 @@
       "text": "Phone",
       "amount": -120,
       "id": 5
+    },
+    {
+      "text": "Hangout",
+      "amount": -34,
+      "id": 6
     }
   ]
 }
