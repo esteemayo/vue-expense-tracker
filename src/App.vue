@@ -71,7 +71,6 @@ export default {
       deleteTransaction,
     };
   },
-  methods: {},
   async created() {
     this.transactions = await this.fetchTransactions();
   },
