@@ -9,6 +9,7 @@
           id="text"
           name="text"
           v-model.trim="text"
+          ref="textInputRef"
           placeholder="Enter text..."
         />
       </div>
@@ -56,6 +57,12 @@ export default {
         this.amount = 0;
       }
     },
+    textRef() {
+      this.$refs.textInputRef.focus();
+    },
+  },
+  mounted() {
+    this.textRef();
   },
 };
 </script>

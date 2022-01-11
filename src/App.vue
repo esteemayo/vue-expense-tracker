@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import { ref } from '@vue/reactivity';
+
 import TransactionList from './components/TransactionList';
 import TransactionForm from './components/TransactionForm';
 import IncomeExpenses from './components/IncomeExpenses';
@@ -27,18 +29,16 @@ export default {
     TransactionList,
     TransactionForm,
   },
-  data() {
-    return {
-      transactions: [],
-    };
-  },
-  methods: {
-    async fetchTransactions() {
+  setup() {
+    const transactions = ref([]);
+
+    async function fetchTransactions() {
       const res = await fetch('api/transactions');
       const data = await res.json();
       return data;
-    },
-    async addTransaction(transaction) {
+    }
+
+    async function addTransaction(transaction) {
       const res = await fetch('api/transactions', {
         method: 'POST',
         headers: {
@@ -49,20 +49,29 @@ export default {
 
       const data = await res.json();
 
-      this.transactions = [...this.transactions, data];
-    },
-    async deleteTransaction(id) {
+      transactions.value = [...transactions.value, data];
+    }
+
+    async function deleteTransaction(id) {
       const res = await fetch(`api/transactions/${id}`, {
         method: 'DELETE',
       });
 
       res.status === 200
-        ? (this.transactions = this.transactions.filter(
+        ? (transactions.value = transactions.value.filter(
             (transaction) => transaction.id !== id
           ))
         : alert('Error deleting transaction');
-    },
+    }
+
+    return {
+      transactions,
+      fetchTransactions,
+      addTransaction,
+      deleteTransaction,
+    };
   },
+  methods: {},
   async created() {
     this.transactions = await this.fetchTransactions();
   },
