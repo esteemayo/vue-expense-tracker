@@ -12,13 +12,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'IncomeExpenses',
-  props: {
-    transactions: Array,
-  },
-  methods: {
-    income(transactions) {
+  setup() {
+    function income(transactions) {
       const amount = transactions.map((transaction) => transaction.amount);
 
       const income = amount
@@ -26,8 +25,9 @@ export default {
         .reduce((total, item) => (total += item), 0);
 
       return parseFloat(income).toFixed(2);
-    },
-    expense(transactions) {
+    }
+
+    function expense(transactions) {
       const amount = transactions.map((transaction) => transaction.amount);
 
       const expense =
@@ -36,8 +36,11 @@ export default {
           .reduce((total, item) => (total += item), 0) * -1;
 
       return expense;
-    },
+    }
+
+    return { income, expense };
   },
+  computed: mapGetters(['transactions']),
 };
 </script>
 

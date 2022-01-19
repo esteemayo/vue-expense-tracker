@@ -6,25 +6,24 @@
     v-for="transaction in transactions"
     :key="transaction.id"
   >
-    <Transaction
-      :transaction="transaction"
-      @delete-transaction="$emit('delete-transaction', transaction.id)"
-    />
+    <Transaction :transaction="transaction" />
   </ul>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
 import Transaction from './Transaction';
 
 export default {
   name: 'TransactionList',
-  props: {
-    transactions: Array,
-  },
   components: {
     Transaction,
   },
-  emits: ['delete-transaction'],
+  computed: mapGetters(['transactions']),
+  methods: mapActions(['fetchTransactions']),
+  mounted() {
+    this.fetchTransactions();
+  },
 };
 </script>
 

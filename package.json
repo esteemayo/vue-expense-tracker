@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "CI= vue-cli-service build",
     "lint": "vue-cli-service lint",
     "backend": "json-server --watch db.json --port 7070"
   },
@@ -12,7 +12,8 @@
     "core-js": "^3.6.5",
     "json-server": "^0.17.0",
     "vue": "^3.0.0",
-    "vue-fontawesome": "^0.0.2"
+    "vue-fontawesome": "^0.0.2",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

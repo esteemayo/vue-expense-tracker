@@ -1,24 +1,19 @@
 <template>
   <Header title="Expense Tracker" />
   <div class="container">
-    <Balance :transactions="transactions" />
-    <IncomeExpenses :transactions="transactions" />
-    <TransactionList
-      :transactions="transactions"
-      @delete-transaction="deleteTransaction"
-    />
-    <TransactionForm @add-transaction="addTransaction" />
+    <Balance />
+    <IncomeExpenses />
+    <TransactionList />
+    <TransactionForm />
   </div>
 </template>
 
 <script>
-import { ref } from '@vue/reactivity';
-
-import TransactionList from './components/TransactionList';
-import TransactionForm from './components/TransactionForm';
-import IncomeExpenses from './components/IncomeExpenses';
-import Balance from './components/Balance';
-import Header from './components/Header';
+import TransactionList from '@/components/TransactionList';
+import TransactionForm from '@/components/TransactionForm';
+import IncomeExpenses from '@/components/IncomeExpenses';
+import Balance from '@/components/Balance';
+import Header from '@/components/Header';
 
 export default {
   name: 'App',
@@ -28,51 +23,6 @@ export default {
     IncomeExpenses,
     TransactionList,
     TransactionForm,
-  },
-  setup() {
-    const transactions = ref([]);
-
-    async function fetchTransactions() {
-      const res = await fetch('api/transactions');
-      const data = await res.json();
-      return data;
-    }
-
-    async function addTransaction(transaction) {
-      const res = await fetch('api/transactions', {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify(transaction),
-      });
-
-      const data = await res.json();
-
-      transactions.value = [...transactions.value, data];
-    }
-
-    async function deleteTransaction(id) {
-      const res = await fetch(`api/transactions/${id}`, {
-        method: 'DELETE',
-      });
-
-      res.status === 200
-        ? (transactions.value = transactions.value.filter(
-            (transaction) => transaction.id !== id
-          ))
-        : alert('Error deleting transaction');
-    }
-
-    return {
-      transactions,
-      fetchTransactions,
-      addTransaction,
-      deleteTransaction,
-    };
-  },
-  async created() {
-    this.transactions = await this.fetchTransactions();
   },
 };
 </script>

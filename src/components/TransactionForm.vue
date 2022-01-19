@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import Button from './Button';
 
 export default {
@@ -44,6 +45,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['addTransaction']),
     handleSubmit() {
       if (this.text && this.amount) {
         const newTransaction = {
@@ -51,7 +53,7 @@ export default {
           amount: +this.amount,
         };
 
-        this.$emit('add-transaction', newTransaction);
+        this.addTransaction(newTransaction);
 
         this.text = '';
         this.amount = 0;

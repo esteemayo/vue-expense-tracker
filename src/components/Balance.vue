@@ -6,11 +6,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'Balance',
-  props: {
-    transactions: Array,
-  },
+  computed: mapGetters(['transactions']),
   methods: {
     total(transactions) {
       const total = transactions

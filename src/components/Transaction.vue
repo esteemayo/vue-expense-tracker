@@ -5,22 +5,22 @@
       {{ sign(transaction) }}
       ${{ Math.abs(transaction.amount) }}
     </span>
-    <button
-      class="delete-btn"
-      @click="$emit('delete-transaction', transaction.id)"
-    >
+    <button class="delete-btn" @click="deleteTransaction(transaction.id)">
       <span class="fas fa-times"></span>
     </button>
   </li>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'Transaction',
   props: {
     transaction: Object,
   },
   methods: {
+    ...mapActions(['deleteTransaction']),
     signClass(transaction) {
       return transaction.amount < 0 ? 'minus' : 'plus';
     },
